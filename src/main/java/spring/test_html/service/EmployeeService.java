@@ -1,13 +1,13 @@
 package spring.test_html.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import spring.test_html.entity.Employee;
+import spring.test_html.payload.DeleteObject;
 import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +20,55 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public List<Employee> getAllDeleteEmployees() {
+        return employeeRepository.findByStatus("D");
+    }
+
     public String saveEmployee(Employee employee) {
         employeeRepository.save(employee);
         return "Создано!";
+    }
+
+    public void deleteEmpId(DeleteObject deleteObject) {
+        String[] split = deleteObject.getId().split(",");
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < split.length; i++) {
+            list.add(Integer.parseInt(split[i]));
+        }
+        for(int i : list) {
+            Optional<Employee> optionalEmployee = employeeRepository.findById(i);
+            if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
+            Employee employee = optionalEmployee.get();
+            employee.setStatus("D");
+            employeeRepository.save(employee);
+        }
+    }
+
+    public void recoverEmployee(DeleteObject deleteObject) {
+        String[] split = deleteObject.getId().split(",");
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < split.length; i++) {
+            list.add(Integer.parseInt(split[i]));
+        }
+        for(int i : list) {
+            Optional<Employee> optionalEmployee = employeeRepository.findById(i);
+            if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
+            Employee employee = optionalEmployee.get();
+            employee.setStatus("A");
+            employeeRepository.save(employee);
+        }
     }
 
     public Optional<Employee> getEmployeeById(int id) {
         return employeeRepository.findById(id);
     }
     public void deleteEmployee(int id) {
-
-        employeeRepository.deleteById(id);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
+        else {
+            Employee employee = optionalEmployee.get();
+            employee.setStatus("D");
+            employeeRepository.save(employee);
+        }
     }
-
-
 }
