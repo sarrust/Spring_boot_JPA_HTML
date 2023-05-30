@@ -14,14 +14,15 @@
             width: 100%;
         }
 
-        .table tr.selected{
+        .table tr.selected {
             background: lightsteelblue;
         }
+
         .table .tr-select:hover {
             background: lightslategrey;
         }
 
-        .table .header-tb{
+        .table .header-tb {
             background: #015C65;
         }
     </style>
@@ -33,7 +34,7 @@
 <form action="/api/deleteusers" method="post">
     <table style="border:2px #015C65 solid" class="table">
         <tr style="border:2px #015C65 solid; color: white; font-weight: bold; font-size: large" class="header-tb">
-            <th scope="col"> </th>
+            <th scope="col"></th>
             <th scope="col">ID</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
@@ -42,7 +43,8 @@
             <th scope="col" class="text-center">Status</th>
         </tr>
 
-        <tr class="tr-select" th:each="emp : ${employees}" style="border:2px lightseagreen solid" onclick="toggleCheckbox(event),toggleRow(this)">
+        <tr class="tr-select" th:each="emp : ${employees}" style="border:2px lightseagreen solid"
+            onclick="toggleCheckbox(event),toggleRow(this)">
             <td scope="row">
                 <input type="checkbox" name="selectedEmployees" style="display: none" th:data-id="${emp.id}">
             </td>
@@ -59,9 +61,11 @@
 
     <input type="text" id="emp_id" name="id" style="display: none">
 
-    <div class="text-left mt-4 mx-1" >
-        <a type="submit" class="btn btn-secondary mx-3" style="width: 80px; font-size: large; height: 40px" href="/api/employees" ><i class="bi bi-arrow-left"></i></a>
-        <button type="submit" class="btn btn-success" style="width: 90px; height: 40px" onclick="recoverSelectedEmployees()">Recover</i></button>
+    <div class="text-left mt-4 mx-1">
+        <a type="submit" class="btn btn-secondary mx-3" style="width: 80px; font-size: large; height: 40px"
+           href="/api/employees"><i class="bi bi-arrow-left"></i></a>
+        <button type="submit" class="btn btn-success" style="width: 90px; height: 40px"
+                onclick="recoverSelectedEmployees()">Recover</i></button>
     </div>
 
 </form>
@@ -69,9 +73,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 
-    function toggleRow(row){
+    function toggleRow(row) {
         row.classList.toggle("selected");
     }
+
     function toggleCheckbox(event) {
         if (event.target.tagName === 'TD') {
             const checkbox = event.currentTarget.querySelector('input[name="selectedEmployees"]');
@@ -87,10 +92,10 @@
         input_value.value = employeeIds;
 
 
-
     }
 
     let input_value = document.getElementById('empID');
+
     function recoverSelectedEmployees() {
 
         const selectedEmployees = document.querySelectorAll('input[name="selectedEmployees"]:checked');
@@ -105,7 +110,7 @@
                 const row = employee.closest('tr');
                 row.parentNode.removeChild(row);
             });
-        }else{
+        } else {
             const input_value = document.getElementById('emp_id');
             input_value.value = null;
         }

@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.test_html.entity.Employee;
 import spring.test_html.payload.DeleteObject;
+import spring.test_html.payload.SearchEmployee;
 import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 import spring.test_html.service.EmployeeService;
+
 import java.util.Optional;
 
 @Controller
@@ -21,9 +23,10 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping("/error")
-    public String getError(){
+    public String getError() {
         return "notfound";
     }
+
     @GetMapping("/employees")
     public String getAllEmployees(Model model) {
         model.addAttribute("employees", employeeService.getAllEmployees());
@@ -61,16 +64,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/add/{id}")
-    public String addEmployee(@PathVariable("id") Integer id, Model model){
+    public String addEmployee(@PathVariable("id") Integer id, Model model) {
         Optional<Employee> employee = employeeService.getEmployeeById(id);
-        model.addAttribute("employee",employee.get());
+        model.addAttribute("employee", employee.get());
         return "add";
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdateEmployee(@PathVariable("id") Integer id, Model model){
+    public String getUpdateEmployee(@PathVariable("id") Integer id, Model model) {
         Optional<Employee> employee = employeeService.getEmployeeById(id);
-        model.addAttribute("employee",employee.get());
+        model.addAttribute("employee", employee.get());
         return "update";
     }
 
@@ -83,8 +86,8 @@ public class EmployeeController {
         Employee employee = optionalEmployee.get();
         if (employee.getName().equals(updateEmployee.getName()) &&
                 employee.getSurname().equals(updateEmployee.getSurname()) &&
-                    employee.getDepartment().equals(updateEmployee.getDepartment()) &&
-                        employee.getSalary() == updateEmployee.getSalary()) {
+                employee.getDepartment().equals(updateEmployee.getDepartment()) &&
+                employee.getSalary() == updateEmployee.getSalary()) {
             employeeService.saveEmployee(employee);
             return "redirect:/api/employees";
         } else {
@@ -99,17 +102,23 @@ public class EmployeeController {
     }
 
     @PostMapping("/delete")
-    public String deleteEmpId(DeleteObject deleteObject){
+    public String deleteEmpId(DeleteObject deleteObject) {
         if (deleteObject.getId().isEmpty()) return "redirect:/api/employees";
         employeeService.deleteEmpId(deleteObject);
         return "redirect:/api/employees";
     }
 
     @PostMapping("/deleteusers")
-    public String recoverEmployee(DeleteObject deleteObject){
+    public String recoverEmployee(DeleteObject deleteObject) {
         if (deleteObject.getId().isEmpty()) return "redirect:/api/deleteusers";
         employeeService.recoverEmployee(deleteObject);
         return "redirect:/api/deleteusers";
+    }
+
+    @PostMapping("/search")
+    public String getEmployeeByName(SearchEmployee searchEmployee, Model model) {
+        model.addAttribute("employees", employeeService.searchEmployee(searchEmployee));
+        return "index";
     }
 
 }

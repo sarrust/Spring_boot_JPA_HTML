@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.test_html.entity.Employee;
 import spring.test_html.payload.DeleteObject;
+import spring.test_html.payload.SearchEmployee;
 import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -32,10 +34,10 @@ public class EmployeeService {
     public void deleteEmpId(DeleteObject deleteObject) {
         String[] split = deleteObject.getId().split(",");
         List<Integer> list = new ArrayList<>();
-        for(int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             list.add(Integer.parseInt(split[i]));
         }
-        for(int i : list) {
+        for (int i : list) {
             Optional<Employee> optionalEmployee = employeeRepository.findById(i);
             if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
             Employee employee = optionalEmployee.get();
@@ -47,14 +49,14 @@ public class EmployeeService {
     public void recoverEmployee(DeleteObject deleteObject) {
         String[] split = deleteObject.getId().split(",");
         List<Integer> list = new ArrayList<>();
-        for(int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             list.add(Integer.parseInt(split[i]));
         }
-        for(int i : list) {
+        for (int i : list) {
             Optional<Employee> optionalEmployee = employeeRepository.findById(i);
             if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
             Employee employee = optionalEmployee.get();
-            employee.setStatus("A");
+            employee.setStatus("AR");
             employeeRepository.save(employee);
         }
     }
@@ -62,6 +64,7 @@ public class EmployeeService {
     public Optional<Employee> getEmployeeById(int id) {
         return employeeRepository.findById(id);
     }
+
     public void deleteEmployee(int id) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
@@ -70,5 +73,9 @@ public class EmployeeService {
             employee.setStatus("D");
             employeeRepository.save(employee);
         }
+    }
+
+    public List<Employee> searchEmployee(SearchEmployee searchEmployee) {
+        return employeeRepository.findBySearch(searchEmployee.getSearch());
     }
 }
