@@ -1,6 +1,5 @@
 package spring.test_html.Controller;
 
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +9,6 @@ import spring.test_html.payload.DeleteObject;
 import spring.test_html.payload.SearchEmployee;
 import spring.test_html.payload.SearchSalary;
 import spring.test_html.payload.UpdateEmployee;
-import spring.test_html.repository.EmployeeRepository;
 import spring.test_html.service.EmployeeService;
 
 import java.util.Optional;
@@ -20,8 +18,6 @@ import java.util.Optional;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     @GetMapping("/error")
     public String getError() {
@@ -47,12 +43,6 @@ public class EmployeeController {
         return "index";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteEmployeeById(@PathVariable Integer id) {
-        employeeService.deleteEmployee(id);
-        return "redirect:/api/employees";
-    }
-
     @GetMapping("/add")
     public String addEmployeePage() {
         return "add";
@@ -62,13 +52,6 @@ public class EmployeeController {
     public String addEmployee(Employee employee) {
         employeeService.saveEmployee(employee);
         return "redirect:/api/employees";
-    }
-
-    @GetMapping("/add/{id}")
-    public String addEmployee(@PathVariable("id") Integer id, Model model) {
-        Optional<Employee> employee = employeeService.getEmployeeById(id);
-        model.addAttribute("employee", employee.get());
-        return "add";
     }
 
     @GetMapping("/update/{id}")
@@ -127,11 +110,13 @@ public class EmployeeController {
         model.addAttribute("employees", employeeService.findStatus("A"));
         return "index";
     }
+
     @GetMapping("/employees/E")
     public String findStatusE(Model model) {
         model.addAttribute("employees", employeeService.findStatus("E"));
         return "index";
     }
+
     @GetMapping("/employees/AR")
     public String findStatusAR(Model model) {
         model.addAttribute("employees", employeeService.findStatus("AR"));

@@ -25,7 +25,6 @@
             background: #015C65;
         }
 
-
     </style>
 </head>
 
@@ -147,9 +146,7 @@
     let input_value = document.getElementById('empID');
 
     function deleteSelectedEmployees() {
-
         const selectedEmployees = document.querySelectorAll('input[name="selectedEmployees"]:checked');
-
         if (selectedEmployees.length === 0) {
             alert("Выберите хотя бы одного сотрудника для удаления.");
             return;
@@ -164,11 +161,7 @@
             const input_value = document.getElementById('emp_id');
             input_value.value = null;
         }
-
-
     }
-
-
 </script>
 
 </body>

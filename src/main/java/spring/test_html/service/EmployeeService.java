@@ -1,13 +1,11 @@
 package spring.test_html.service;
 
-import ch.qos.logback.core.model.conditional.ElseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.test_html.entity.Employee;
 import spring.test_html.payload.DeleteObject;
 import spring.test_html.payload.SearchEmployee;
 import spring.test_html.payload.SearchSalary;
-import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 
 import java.util.ArrayList;
@@ -65,16 +63,6 @@ public class EmployeeService {
 
     public Optional<Employee> getEmployeeById(int id) {
         return employeeRepository.findById(id);
-    }
-
-    public void deleteEmployee(int id) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
-        if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
-        else {
-            Employee employee = optionalEmployee.get();
-            employee.setStatus("D");
-            employeeRepository.save(employee);
-        }
     }
 
     public List<Employee> searchEmployee(SearchEmployee searchEmployee) {
