@@ -31,10 +31,17 @@
 
 <body style="background: ghostwhite">
 <h1 class="text-center p-2 text-emphasis-color" style="color: #015C65; font-weight: bold;">EMPLOYEE MANAGEMENT</h1>
-<div class="p-3">
-    <form class="d-flex" role="search" method="post" action="/api/search">
+<div class="d-flex justify-content-between p-3">
+    <form class="float-start d-flex" role="search" method="post" action="/api/search">
         <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" required>
         <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <form class="d-flex" method="post" action="/api/searchsalary">
+        <input class="form-control me-2" name="min" type="number" placeholder="Min" required>
+        <i class="bi bi-arrow-left-right mt-1" style="color: #015C65;"></i>
+        <input class="form-control me-2 ms-2" name="max" type="number" placeholder="Max" required>
+        <button class="btn btn-outline-primary" type="submit">Search</button>
     </form>
 </div>
 <form action="/api/delete" method="post">
@@ -89,13 +96,22 @@
 
     <ul class="mt-4 mx-3" style="list-style-type: none; border-collapse: collapse;padding-inline-start: 0px">
         <li style="display: inline-block; padding: 10px">
-            <i class="bi bi-circle-fill" style="color: limegreen"></i><b> - User</b>
+            <a th:href="@{/api/employees/{status}(status = 'A')}" style="text-decoration: none">
+                <i class="bi bi-circle-fill" style="color: limegreen"></i>
+            </a>
+            <b> - User</b>
         </li>
         <li style="display: inline-block; padding: 10px 10px 10px 0px">
-            <i class="bi bi-circle-fill" style="color: dodgerblue"></i><b> - Edit</b>
+            <a th:href="@{/api/employees/{status}(status = 'E')}" style="text-decoration: none">
+                <i class="bi bi-circle-fill" style="color: dodgerblue"></i>
+            </a>
+            <b> - Edit</b>
         </li>
         <li style="display: inline-block; padding: 10px">
-            <i class="bi bi-circle-fill" style="color: #ff8c00"></i><b> - Recover</b>
+            <a th:href="@{/api/employees/{status}(status = 'AR')}" style="text-decoration: none">
+                <i class="bi bi-circle-fill" style="color: #ff8c00"></i>
+            </a>
+            <b> - Recover</b>
         </li>
         <li style="display: inline-block; padding: 10px">
             <i class="bi bi-circle-fill" style="color: red"></i><b> - Delete</b>

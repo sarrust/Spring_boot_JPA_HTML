@@ -1,10 +1,12 @@
 package spring.test_html.service;
 
+import ch.qos.logback.core.model.conditional.ElseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.test_html.entity.Employee;
 import spring.test_html.payload.DeleteObject;
 import spring.test_html.payload.SearchEmployee;
+import spring.test_html.payload.SearchSalary;
 import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 
@@ -77,5 +79,13 @@ public class EmployeeService {
 
     public List<Employee> searchEmployee(SearchEmployee searchEmployee) {
         return employeeRepository.findBySearch(searchEmployee.getSearch());
+    }
+
+    public List<Employee> searchSalary(SearchSalary searchSalary) {
+        return employeeRepository.findByBetweenSalary(searchSalary.getMin(), searchSalary.getMax());
+    }
+
+    public List<Employee> findStatus(String status) {
+        return employeeRepository.findByEmployeeStatus(status);
     }
 }

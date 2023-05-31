@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import spring.test_html.entity.Employee;
 import spring.test_html.payload.DeleteObject;
 import spring.test_html.payload.SearchEmployee;
+import spring.test_html.payload.SearchSalary;
 import spring.test_html.payload.UpdateEmployee;
 import spring.test_html.repository.EmployeeRepository;
 import spring.test_html.service.EmployeeService;
@@ -118,6 +119,28 @@ public class EmployeeController {
     @PostMapping("/search")
     public String getEmployeeByName(SearchEmployee searchEmployee, Model model) {
         model.addAttribute("employees", employeeService.searchEmployee(searchEmployee));
+        return "index";
+    }
+
+    @GetMapping("/employees/A")
+    public String findStatusA(Model model) {
+        model.addAttribute("employees", employeeService.findStatus("A"));
+        return "index";
+    }
+    @GetMapping("/employees/E")
+    public String findStatusE(Model model) {
+        model.addAttribute("employees", employeeService.findStatus("E"));
+        return "index";
+    }
+    @GetMapping("/employees/AR")
+    public String findStatusAR(Model model) {
+        model.addAttribute("employees", employeeService.findStatus("AR"));
+        return "index";
+    }
+
+    @PostMapping("/searchsalary")
+    public String findBetweenSalary(SearchSalary searchSalary, Model model) {
+        model.addAttribute("employees", employeeService.searchSalary(searchSalary));
         return "index";
     }
 
