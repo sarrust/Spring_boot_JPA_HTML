@@ -117,9 +117,9 @@ public class EmployeeController {
         return "index";
     }
 
-    @GetMapping("/employees/AR")
+    @GetMapping("/employees/R")
     public String findStatusAR(Model model) {
-        model.addAttribute("employees", employeeService.findStatus("AR"));
+        model.addAttribute("employees", employeeService.findStatus("R"));
         return "index";
     }
 

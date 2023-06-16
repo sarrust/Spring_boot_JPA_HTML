@@ -56,7 +56,7 @@ public class EmployeeService {
             Optional<Employee> optionalEmployee = employeeRepository.findById(i);
             if (!optionalEmployee.isPresent()) System.out.println("Not found!!!");
             Employee employee = optionalEmployee.get();
-            employee.setStatus("AR");
+            employee.setStatus("R");
             employeeRepository.save(employee);
         }
     }
